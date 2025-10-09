@@ -65,7 +65,7 @@
             -ms-user-select: none;
             touch-action: manipulation;
             margin-bottom: 30px;
-            
+
             /* Applique l'animation de saut au conteneur du cookie */
             animation: cookieJump 2s infinite alternate ease-in-out;
             transform-origin: center bottom; /* Point de pivot pour le saut */
@@ -224,7 +224,7 @@
 
         /* Styles pour les cookies qui tombent (utilisés pour les achats d'améliorations) */
         .falling-cookie {
-            position: absolute;
+            position: fixed;
             width: 25px;
             height: 25px;
             background-color: #F5DEB3; /* Utilise la couleur du cookie, sans image */
@@ -232,7 +232,7 @@
             pointer-events: none; /* Permet de cliquer à travers */
             opacity: 1;
             animation: fallAndFade 1.5s forwards ease-out;
-            z-index: 5;
+            z-index: 9999;
             box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* Petite ombre pour la profondeur */
         }
 
@@ -252,7 +252,7 @@
     <div id="game-area">
         <div id="cookie-count">0 Cookies</div>
         <div id="cps-display">0 Cookies/seconde</div>
-        
+
         <button id="click-button">
             <div class="cookie-outer">
                 <div class="cookie-inner">
@@ -755,7 +755,7 @@
             'celestial-punch': { cost: 1000000000000, baseCost: 1000000000000, count: 0, increase: { click: 50000000 }, element: document.getElementById('celestial-punch-upgrade'), costDisplay: document.getElementById('celestial-punch-cost'), countDisplay: document.getElementById('celestial-punch-count') },
             'universal-strike': { cost: 5000000000000, baseCost: 5000000000000, count: 0, increase: { click: 250000000 }, element: document.getElementById('universal-strike-upgrade'), costDisplay: document.getElementById('universal-strike-cost'), countDisplay: document.getElementById('universal-strike-count') },
             'dieunoham': { cost: 20000000000000, baseCost: 20000000000000, count: 0, increase: { click: 1000000000 }, element: document.getElementById('dieunoham-upgrade'), costDisplay: document.getElementById('dieunoham-cost'), countDisplay: document.getElementById('dieunoham-count') }, // L'amélioration "Dieu Noham"
-            
+
             // NOUVELLES AMÉLIORATIONS DE CLIC (10 au total)
             'midas-touch': { cost: 100000000000000, baseCost: 100000000000000, count: 0, increase: { click: 100000000 }, element: document.getElementById('midas-touch-upgrade'), costDisplay: document.getElementById('midas-touch-cost'), countDisplay: document.getElementById('midas-touch-count') },
             'titan-click': { cost: 500000000000000, baseCost: 500000000000000, count: 0, increase: { click: 500000000 }, element: document.getElementById('titan-click-upgrade'), costDisplay: document.getElementById('titan-click-cost'), countDisplay: document.getElementById('titan-click-count') },
@@ -899,26 +899,29 @@
 
         // --- Effets visuels (cookies qui tombent) ---
         function dropCookiesFromElement(element, count = 8) {
-            if (!element || !gameArea) {
+            if (!element) {
                 return;
             }
             const rect = element.getBoundingClientRect();
-            const gameAreaRect = gameArea.getBoundingClientRect();
 
             for (let i = 0; i < count; i++) {
                 const fallingCookie = document.createElement('div');
                 fallingCookie.classList.add('falling-cookie');
 
-                const startX = (rect.left + rect.width / 2) - gameAreaRect.left - (fallingCookie.offsetWidth / 2);
-                const startY = (rect.top - gameAreaRect.top);
+                // Position fixe par rapport à la fenêtre (fonctionne en plein écran)
+                const startX = rect.left + rect.width / 2 - 12.5; // Centre horizontal - 12.5px (moitié de 25px)
+                const startY = rect.top + rect.height / 2 - 12.5; // Centre vertical - 12.5px
 
-                fallingCookie.style.left = `${startX + (Math.random() * 40 - 20)}px`;
+                // Petite dispersion seulement horizontale pour qu'ils partent du cookie
+                const disperseX = Math.random() * 60 - 30; // Dispersion de -30px à +30px
+                
+                fallingCookie.style.left = `${startX + disperseX}px`;
                 fallingCookie.style.top = `${startY}px`;
 
                 fallingCookie.style.animationDelay = `${Math.random() * 0.2}s`;
-                fallingCookie.style.animationDuration = `${1 + Math.random() * 0.5}s`;
+                fallingCookie.style.animationDuration = `${0.8 + Math.random() * 0.5}s`; // Entre 0.8s et 1.3s
 
-                gameArea.appendChild(fallingCookie);
+                document.body.appendChild(fallingCookie);
 
                 fallingCookie.addEventListener('animationend', () => {
                     fallingCookie.remove();
@@ -1016,6 +1019,9 @@
                 // Force un "reflow" pour réinitialiser l'animation
                 void clickButton.offsetWidth; 
                 clickButton.style.animation = 'cookieJump 2s infinite alternate ease-in-out'; // Relance l'animation
+                
+                // Ajoute l'animation de cookies qui tombent lors du clic
+                dropCookiesFromElement(clickButton, 12);
             });
         }
 
