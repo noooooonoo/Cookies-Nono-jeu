@@ -246,9 +246,136 @@
                 opacity: 0;
             }
         }
+
+        /* Styles pour les cookies dorés */
+        .golden-cookie {
+            position: fixed;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #ffd700, #ffaa00);
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10000;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.8), 0 0 50px rgba(255, 215, 0, 0.5);
+            animation: goldenPulse 1s infinite, goldenFloat 3s ease-in-out infinite;
+            border: 3px solid #ffed4e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            transition: transform 0.2s;
+        }
+
+        .golden-cookie:hover {
+            transform: scale(1.1);
+        }
+
+        .golden-cookie:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes goldenPulse {
+            0%, 100% {
+                box-shadow: 0 0 30px rgba(255, 215, 0, 0.8), 0 0 50px rgba(255, 215, 0, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(255, 215, 0, 1), 0 0 70px rgba(255, 215, 0, 0.7);
+            }
+        }
+
+        @keyframes goldenFloat {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-10px) rotate(5deg);
+            }
+            75% {
+                transform: translateY(-5px) rotate(-5deg);
+            }
+        }
+
+        /* Bannière d'événement */
+        #event-banner {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.3em;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 9998;
+            display: none;
+            animation: bannerSlide 0.5s ease-out;
+        }
+
+        @keyframes bannerSlide {
+            from {
+                top: -100px;
+                opacity: 0;
+            }
+            to {
+                top: 10px;
+                opacity: 1;
+            }
+        }
+
+        /* Thèmes d'événements */
+        body.halloween-theme {
+            background: linear-gradient(135deg, #2d1b4e 0%, #1a0f2e 100%);
+        }
+
+        body.christmas-theme {
+            background: linear-gradient(135deg, #1a472a 0%, #0d2818 100%);
+        }
+
+        body.newyear-theme {
+            background: linear-gradient(135deg, #1e3a5f 0%, #0f1d2f 100%);
+        }
+
+        body.valentine-theme {
+            background: linear-gradient(135deg, #5e1a3c 0%, #2f0d1e 100%);
+        }
+
+        /* Message de bonus */
+        .bonus-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 215, 0, 0.95);
+            color: #333;
+            padding: 30px 50px;
+            border-radius: 15px;
+            font-size: 2em;
+            font-weight: bold;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+            z-index: 10001;
+            animation: bonusAppear 0.5s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes bonusAppear {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
+    <div id="event-banner"></div>
     <div id="game-area">
         <div id="cookie-count">0 Cookies</div>
         <div id="cps-display">0 Cookies/seconde</div>
@@ -861,6 +988,189 @@
             'ultimate-existence': { cost: 100000000000000000000000000000000000, baseCost: 100000000000000000000000000000000000, count: 0, increase: { click: 10000000000000000000000 }, element: document.getElementById('ultimate-existence-upgrade'), costDisplay: document.getElementById('ultimate-existence-cost'), countDisplay: document.getElementById('ultimate-existence-count') }
         };
 
+        // --- Système d'événements et cookies dorés ---
+        let currentEvent = null;
+        let goldenCookieBonus = 1; // Multiplicateur de production temporaire
+        const eventBanner = document.getElementById('event-banner');
+
+        // Définition des événements
+        const events = {
+            halloween: {
+                name: '🎃 Halloween',
+                startMonth: 9,  // Octobre (0-indexed)
+                startDay: 20,
+                endMonth: 10,    // Novembre
+                endDay: 2,
+                theme: 'halloween-theme',
+                message: '🎃 Événement Halloween ! 🎃'
+            },
+            christmas: {
+                name: '🎄 Noël',
+                startMonth: 11,  // Décembre
+                startDay: 15,
+                endMonth: 11,
+                endDay: 26,
+                theme: 'christmas-theme',
+                message: '🎄 Joyeux Noël ! 🎄'
+            },
+            newyear: {
+                name: '🎆 Nouvel An',
+                startMonth: 11,  // Décembre
+                startDay: 27,
+                endMonth: 0,     // Janvier
+                endDay: 5,
+                theme: 'newyear-theme',
+                message: '🎆 Bonne Année ! 🎆'
+            },
+            valentine: {
+                name: '💝 Saint-Valentin',
+                startMonth: 1,   // Février
+                startDay: 10,
+                endMonth: 1,
+                endDay: 15,
+                theme: 'valentine-theme',
+                message: '💝 Joyeuse Saint-Valentin ! 💝'
+            }
+        };
+
+        // Vérifier si on est dans une période d'événement
+        function checkCurrentEvent() {
+            const now = new Date();
+            const currentMonth = now.getMonth();
+            const currentDay = now.getDate();
+
+            for (const eventKey in events) {
+                const event = events[eventKey];
+                
+                // Gestion des événements qui traversent deux mois
+                let inEventPeriod = false;
+                
+                if (event.startMonth === event.endMonth) {
+                    // Même mois
+                    inEventPeriod = currentMonth === event.startMonth && 
+                                   currentDay >= event.startDay && 
+                                   currentDay <= event.endDay;
+                } else if (event.startMonth > event.endMonth) {
+                    // Traverse l'année (ex: Nouvel An)
+                    inEventPeriod = (currentMonth === event.startMonth && currentDay >= event.startDay) ||
+                                   (currentMonth === event.endMonth && currentDay <= event.endDay);
+                } else {
+                    // Traverse un mois normal
+                    inEventPeriod = (currentMonth === event.startMonth && currentDay >= event.startDay) ||
+                                   (currentMonth === event.endMonth && currentDay <= event.endDay) ||
+                                   (currentMonth > event.startMonth && currentMonth < event.endMonth);
+                }
+
+                if (inEventPeriod) {
+                    if (currentEvent !== event) {
+                        activateEvent(event);
+                    }
+                    return;
+                }
+            }
+
+            // Aucun événement actif
+            if (currentEvent) {
+                deactivateEvent();
+            }
+        }
+
+        function activateEvent(event) {
+            currentEvent = event;
+            document.body.className = event.theme;
+            if (eventBanner) {
+                eventBanner.textContent = event.message;
+                eventBanner.style.display = 'block';
+            }
+        }
+
+        function deactivateEvent() {
+            currentEvent = null;
+            document.body.className = '';
+            if (eventBanner) {
+                eventBanner.style.display = 'none';
+            }
+        }
+
+        // Créer un cookie doré
+        function spawnGoldenCookie() {
+            const goldenCookie = document.createElement('div');
+            goldenCookie.classList.add('golden-cookie');
+            goldenCookie.textContent = '🍪';
+
+            // Position aléatoire sur l'écran (évite les bords)
+            const maxX = window.innerWidth - 100;
+            const maxY = window.innerHeight - 100;
+            const randomX = Math.random() * maxX + 10;
+            const randomY = Math.random() * maxY + 10;
+
+            goldenCookie.style.left = `${randomX}px`;
+            goldenCookie.style.top = `${randomY}px`;
+
+            // Durée de vie du cookie doré
+            const lifetime = 13000; // 13 secondes
+
+            document.body.appendChild(goldenCookie);
+
+            // Clic sur le cookie doré
+            goldenCookie.addEventListener('click', () => {
+                clickGoldenCookie();
+                goldenCookie.remove();
+            });
+
+            // Le cookie disparaît après un certain temps
+            setTimeout(() => {
+                if (document.body.contains(goldenCookie)) {
+                    goldenCookie.remove();
+                }
+            }, lifetime);
+        }
+
+        // Effets du cookie doré
+        function clickGoldenCookie() {
+            const bonusType = Math.random() < 0.5 ? 'instant' : 'multiplier';
+            
+            if (bonusType === 'instant') {
+                // Bonus instantané : 10% de la production d'1 minute
+                const bonus = Math.floor(cookiesPerSecond * 60 * 0.1) + clickPower * 100;
+                cookies += bonus;
+                showBonusMessage(`+${bonus.toLocaleString('fr-FR')} Cookies !`);
+            } else {
+                // Multiplicateur x2 pendant 30 secondes
+                goldenCookieBonus = 2;
+                showBonusMessage('Production x2 pendant 30s !');
+                
+                setTimeout(() => {
+                    goldenCookieBonus = 1;
+                    showBonusMessage('Bonus terminé !');
+                }, 30000);
+            }
+
+            updateDisplay();
+        }
+
+        // Afficher le message de bonus
+        function showBonusMessage(message) {
+            const bonusMsg = document.createElement('div');
+            bonusMsg.classList.add('bonus-message');
+            bonusMsg.textContent = message;
+            document.body.appendChild(bonusMsg);
+
+            setTimeout(() => {
+                bonusMsg.remove();
+            }, 2000);
+        }
+
+        // Apparition aléatoire des cookies dorés
+        function scheduleNextGoldenCookie() {
+            // Apparition entre 1 et 3 minutes
+            const delay = (60 + Math.random() * 120) * 1000;
+            setTimeout(() => {
+                spawnGoldenCookie();
+                scheduleNextGoldenCookie();
+            }, delay);
+        }
+
         // --- Fonctions de mise à jour de l'interface ---
         function updateDisplay() {
             if (cookieCountDisplay) {
@@ -1099,15 +1409,21 @@
 
         // --- Boucles de jeu ---
         setInterval(() => {
-            cookies += cookiesPerSecond / 60; // Met à jour les cookies 60 fois par seconde pour une meilleure précision
+            cookies += (cookiesPerSecond / 60) * goldenCookieBonus; // Applique le multiplicateur du cookie doré
             updateDisplay();
         }, 1000 / 60); // 60 fois par seconde (environ 16.67ms)
 
         setInterval(saveGame, 5000); // Sauvegarde toutes les 5 secondes
 
+        // Vérifier les événements toutes les minutes
+        setInterval(checkCurrentEvent, 60000);
+
         document.addEventListener('DOMContentLoaded', loadGame); // Charge la partie au démarrage
 
+        // Initialisation
         updateDisplay(); // Mise à jour initiale de l'affichage
+        checkCurrentEvent(); // Vérifie l'événement actuel
+        scheduleNextGoldenCookie(); // Lance le système de cookies dorés
     </script>
 </body>
 </html>
