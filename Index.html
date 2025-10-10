@@ -1232,19 +1232,18 @@
             if (savedData) {
                 const gameData = JSON.parse(savedData);
                 cookies = gameData.cookies || 0;
-                clickPower = gameData.clickPower || 1;
-                cookiesPerSecond = gameData.cookiesPerSecond || 0;
                 purchaseHistory = gameData.purchaseHistory || [];
+
+                // Réinitialiser les stats avant de recalculer
+                clickPower = 1;
+                cookiesPerSecond = 0;
 
                 for (const key in gameData.upgrades) {
                     if (upgrades[key]) {
                         upgrades[key].cost = gameData.upgrades[key].cost || upgrades[key].baseCost;
                         upgrades[key].count = gameData.upgrades[key].count || 0;
-                        // Appliquer les bonus CPS/Click après le chargement des comptes d'amélioration
+                        // Recalculer les bonus CPS/Click en fonction du nombre d'améliorations possédées
                         if (upgrades[key].increase.cps && upgrades[key].count > 0) {
-                            // On retire d'abord le bonus actuel pour éviter de le doubler si on a juste chargé
-                            // puis on l'ajoute de nouveau en fonction du 'count' chargé.
-                            // C'est plus robuste si le jeu était déjà en cours avant le rechargement.
                             cookiesPerSecond += upgrades[key].increase.cps * upgrades[key].count;
                         }
                         if (upgrades[key].increase.click && upgrades[key].count > 0) {
