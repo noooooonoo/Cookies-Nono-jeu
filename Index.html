@@ -143,6 +143,138 @@
         .chip-12 { top: 55px; right: 10px; width: 20px; height: 20px; }
         /* --- FIN DES STYLES ET STRUCTURE DU COOKIE --- */
 
+        /* --- SKINS DE COOKIES POUR LES ÉVÉNEMENTS --- */
+        
+        /* Skin Halloween - Citrouille */
+        #click-button.halloween-cookie .cookie-outer {
+            background-color: #ff8c00; /* Orange citrouille */
+        }
+        
+        #click-button.halloween-cookie .cookie-inner {
+            background-color: #ffa500; /* Orange plus clair */
+        }
+        
+        #click-button.halloween-cookie .chip {
+            background-color: #000000; /* Noir pour les yeux et bouche */
+            border-radius: 0; /* Formes angulaires pour les traits de citrouille */
+        }
+        
+        /* Yeux et bouche de citrouille */
+        #click-button.halloween-cookie .chip-1 { 
+            top: 30px; left: 25px; width: 20px; height: 25px; 
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%); /* Triangle */
+        }
+        #click-button.halloween-cookie .chip-2 { 
+            top: 30px; right: 25px; width: 20px; height: 25px;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%); /* Triangle */
+        }
+        #click-button.halloween-cookie .chip-5 { 
+            top: 70px; left: 50%; transform: translate(-50%, 0); 
+            width: 70px; height: 25px; border-radius: 0 0 35px 35px; /* Bouche souriante */
+        }
+        #click-button.halloween-cookie .chip-3,
+        #click-button.halloween-cookie .chip-4,
+        #click-button.halloween-cookie .chip-6,
+        #click-button.halloween-cookie .chip-7,
+        #click-button.halloween-cookie .chip-8,
+        #click-button.halloween-cookie .chip-9,
+        #click-button.halloween-cookie .chip-10,
+        #click-button.halloween-cookie .chip-11,
+        #click-button.halloween-cookie .chip-12 {
+            display: none; /* Cache les autres pépites */
+        }
+
+        /* Skin Noël - Sapin */
+        #click-button.christmas-cookie .cookie-outer {
+            background-color: #8b4513; /* Marron pour le tronc */
+        }
+        
+        #click-button.christmas-cookie .cookie-inner {
+            background-color: #228b22; /* Vert sapin */
+            clip-path: polygon(50% 0%, 0% 40%, 10% 40%, 0% 70%, 15% 70%, 0% 100%, 100% 100%, 85% 70%, 100% 70%, 90% 40%, 100% 40%); /* Forme de sapin */
+        }
+        
+        #click-button.christmas-cookie .chip {
+            background-color: #ff0000; /* Boules rouges */
+            border-radius: 50%;
+        }
+
+        #click-button.christmas-cookie .chip-1 { background-color: #ff0000; width: 15px; height: 15px; }
+        #click-button.christmas-cookie .chip-2 { background-color: #ffd700; width: 15px; height: 15px; }
+        #click-button.christmas-cookie .chip-3 { background-color: #ff0000; width: 15px; height: 15px; }
+        #click-button.christmas-cookie .chip-4 { background-color: #1e90ff; width: 15px; height: 15px; }
+        #click-button.christmas-cookie .chip-5 { background-color: #ffd700; width: 20px; height: 20px; } /* Étoile en haut */
+        #click-button.christmas-cookie .chip-6 { background-color: #ff0000; width: 15px; height: 15px; }
+        #click-button.christmas-cookie .chip-7 { background-color: #1e90ff; width: 15px; height: 15px; }
+        #click-button.christmas-cookie .chip-8 { background-color: #ffd700; width: 15px; height: 15px; }
+
+        /* Skin Nouvel An - Feu d'artifice */
+        #click-button.newyear-cookie .cookie-outer {
+            background-color: #191970; /* Bleu nuit */
+        }
+        
+        #click-button.newyear-cookie .cookie-inner {
+            background: radial-gradient(circle, #4169e1 0%, #1e3a8a 100%); /* Dégradé bleu nuit */
+        }
+        
+        #click-button.newyear-cookie .chip {
+            border-radius: 50%;
+            animation: sparkle 1.5s infinite alternate;
+        }
+
+        #click-button.newyear-cookie .chip-1 { background-color: #ffd700; width: 18px; height: 18px; }
+        #click-button.newyear-cookie .chip-2 { background-color: #ff69b4; width: 20px; height: 20px; }
+        #click-button.newyear-cookie .chip-3 { background-color: #00ff00; width: 16px; height: 16px; }
+        #click-button.newyear-cookie .chip-4 { background-color: #ff1493; width: 22px; height: 22px; }
+        #click-button.newyear-cookie .chip-5 { background-color: #ffff00; width: 24px; height: 24px; }
+        #click-button.newyear-cookie .chip-6 { background-color: #00ffff; width: 18px; height: 18px; }
+        #click-button.newyear-cookie .chip-7 { background-color: #ff8c00; width: 20px; height: 20px; }
+        #click-button.newyear-cookie .chip-8 { background-color: #9370db; width: 19px; height: 19px; }
+        #click-button.newyear-cookie .chip-9 { background-color: #00ff7f; width: 17px; height: 17px; }
+        #click-button.newyear-cookie .chip-10 { background-color: #ff69b4; width: 15px; height: 15px; }
+
+        @keyframes sparkle {
+            0% { opacity: 0.6; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Skin Saint-Valentin - Cœur */
+        #click-button.valentine-cookie .cookie-outer {
+            background-color: #c41e3a; /* Rouge foncé */
+        }
+        
+        #click-button.valentine-cookie .cookie-inner {
+            background-color: #ff1493; /* Rose vif */
+            clip-path: path('M 65,25 C 65,15 55,5 45,5 C 38,5 32,10 30,17 C 28,10 22,5 15,5 C 5,5 -5,15 -5,25 C -5,40 10,55 30,75 C 50,55 65,40 65,25 Z');
+            transform: scale(2.1) translateY(-3px);
+        }
+        
+        #click-button.valentine-cookie .chip {
+            background-color: #ff69b4; /* Rose clair pour les petits cœurs */
+            border-radius: 50%;
+        }
+
+        #click-button.valentine-cookie .chip-1 { 
+            background-color: #ff1493; width: 12px; height: 12px;
+            clip-path: path('M 6,3 C 6,1 4,0 3,0 C 1.5,0 0.5,1.5 0,2.5 C -0.5,1.5 -1.5,0 -3,0 C -4,0 -6,1 -6,3 C -6,5 -3,7 0,10 C 3,7 6,5 6,3 Z');
+        }
+        #click-button.valentine-cookie .chip-2 { 
+            background-color: #ffb6c1; width: 10px; height: 10px;
+        }
+        #click-button.valentine-cookie .chip-3,
+        #click-button.valentine-cookie .chip-4,
+        #click-button.valentine-cookie .chip-6,
+        #click-button.valentine-cookie .chip-7,
+        #click-button.valentine-cookie .chip-8,
+        #click-button.valentine-cookie .chip-9,
+        #click-button.valentine-cookie .chip-10,
+        #click-button.valentine-cookie .chip-11,
+        #click-button.valentine-cookie .chip-12 {
+            display: none;
+        }
+        
+        /* --- FIN DES SKINS DE COOKIES POUR LES ÉVÉNEMENTS --- */
+
 
         h2 {
             margin-top: 30px;
@@ -398,6 +530,14 @@
                 </div>
             </div>
         </button>
+
+        <div style="display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; justify-content: center;">
+            <button onclick="testCookieSkin('halloween')" style="background: #ff8c00; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">🎃 Test Halloween</button>
+            <button onclick="testCookieSkin('christmas')" style="background: #228b22; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">🎄 Test Noël</button>
+            <button onclick="testCookieSkin('newyear')" style="background: #4169e1; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">🎆 Test Nouvel An</button>
+            <button onclick="testCookieSkin('valentine')" style="background: #ff1493; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">💝 Test St-Valentin</button>
+            <button onclick="testCookieSkin('normal')" style="background: #6c757d; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">🍪 Cookie Normal</button>
+        </div>
 
         <h2>Améliorations</h2>
         <div id="upgrades-container">
@@ -976,7 +1116,7 @@
             'infinite-oven': { cost: 50000000000000000000000000, baseCost: 50000000000000000000000000, count: 0, increase: { cps: 50000000000000000000000 }, element: document.getElementById('infinite-oven-upgrade'), costDisplay: document.getElementById('infinite-oven-cost'), countDisplay: document.getElementById('infinite-oven-count') },
             'supreme-cosmic-bakery': { cost: 250000000000000000000000000, baseCost: 250000000000000000000000000, count: 0, increase: { cps: 250000000000000000000000 }, element: document.getElementById('supreme-cosmic-bakery-upgrade'), costDisplay: document.getElementById('supreme-cosmic-bakery-cost'), countDisplay: document.getElementById('supreme-cosmic-bakery-count') },
             'omniverse-cookie-machine': { cost: 1000000000000000000000000000, baseCost: 1000000000000000000000000000, count: 0, increase: { cps: 1000000000000000000000000 }, element: document.getElementById('omniverse-cookie-machine-upgrade'), costDisplay: document.getElementById('omniverse-cookie-machine-cost'), countDisplay: document.getElementById('omniverse-cookie-machine-count') },
-            
+
             // NOUVELLES AMÉLIORATIONS ULTRA PUISSANTES
             'transcendent-bakery': { cost: 10000000000000000000000000000, baseCost: 10000000000000000000000000000, count: 0, increase: { cps: 10000000000000000000000000 }, element: document.getElementById('transcendent-bakery-upgrade'), costDisplay: document.getElementById('transcendent-bakery-cost'), countDisplay: document.getElementById('transcendent-bakery-count') },
             'infinity-click': { cost: 100000000000000000000000000000, baseCost: 100000000000000000000000000000, count: 0, increase: { click: 10000000000000000000 }, element: document.getElementById('infinity-click-upgrade'), costDisplay: document.getElementById('infinity-click-cost'), countDisplay: document.getElementById('infinity-click-count') },
@@ -1002,6 +1142,7 @@
                 endMonth: 10,    // Novembre
                 endDay: 2,
                 theme: 'halloween-theme',
+                cookieSkin: 'halloween-cookie',
                 message: '🎃 Événement Halloween ! 🎃'
             },
             christmas: {
@@ -1011,6 +1152,7 @@
                 endMonth: 11,
                 endDay: 26,
                 theme: 'christmas-theme',
+                cookieSkin: 'christmas-cookie',
                 message: '🎄 Joyeux Noël ! 🎄'
             },
             newyear: {
@@ -1020,6 +1162,7 @@
                 endMonth: 0,     // Janvier
                 endDay: 5,
                 theme: 'newyear-theme',
+                cookieSkin: 'newyear-cookie',
                 message: '🎆 Bonne Année ! 🎆'
             },
             valentine: {
@@ -1029,6 +1172,7 @@
                 endMonth: 1,
                 endDay: 15,
                 theme: 'valentine-theme',
+                cookieSkin: 'valentine-cookie',
                 message: '💝 Joyeuse Saint-Valentin ! 💝'
             }
         };
@@ -1041,10 +1185,10 @@
 
             for (const eventKey in events) {
                 const event = events[eventKey];
-                
+
                 // Gestion des événements qui traversent deux mois
                 let inEventPeriod = false;
-                
+
                 if (event.startMonth === event.endMonth) {
                     // Même mois
                     inEventPeriod = currentMonth === event.startMonth && 
@@ -1078,6 +1222,12 @@
         function activateEvent(event) {
             currentEvent = event;
             document.body.className = event.theme;
+            
+            // Applique le skin de cookie correspondant à l'événement
+            if (clickButton && event.cookieSkin) {
+                clickButton.className = event.cookieSkin;
+            }
+            
             if (eventBanner) {
                 eventBanner.textContent = event.message;
                 eventBanner.style.display = 'block';
@@ -1087,8 +1237,27 @@
         function deactivateEvent() {
             currentEvent = null;
             document.body.className = '';
+            
+            // Retire le skin de cookie et revient au cookie normal
+            if (clickButton) {
+                clickButton.className = '';
+            }
+            
             if (eventBanner) {
                 eventBanner.style.display = 'none';
+            }
+        }
+
+        // Fonction de test pour prévisualiser les skins de cookies
+        function testCookieSkin(eventName) {
+            if (eventName === 'normal') {
+                deactivateEvent();
+                return;
+            }
+            
+            const event = events[eventName];
+            if (event) {
+                activateEvent(event);
             }
         }
 
@@ -1129,7 +1298,7 @@
         // Effets du cookie doré
         function clickGoldenCookie() {
             const bonusType = Math.random() < 0.5 ? 'instant' : 'multiplier';
-            
+
             if (bonusType === 'instant') {
                 // Bonus instantané : 10% de la production d'1 minute
                 const bonus = Math.floor(cookiesPerSecond * 60 * 0.1) + clickPower * 100;
@@ -1139,7 +1308,7 @@
                 // Multiplicateur x2 pendant 30 secondes
                 goldenCookieBonus = 2;
                 showBonusMessage('Production x2 pendant 30s !');
-                
+
                 setTimeout(() => {
                     goldenCookieBonus = 1;
                     showBonusMessage('Bonus terminé !');
@@ -1281,7 +1450,7 @@
 
                 // Petite dispersion seulement horizontale pour qu'ils partent du cookie
                 const disperseX = Math.random() * 60 - 30; // Dispersion de -30px à +30px
-                
+
                 fallingCookie.style.left = `${startX + disperseX}px`;
                 fallingCookie.style.top = `${startY}px`;
 
@@ -1386,7 +1555,7 @@
                 // Force un "reflow" pour réinitialiser l'animation
                 void clickButton.offsetWidth; 
                 clickButton.style.animation = 'cookieJump 2s infinite alternate ease-in-out'; // Relance l'animation
-                
+
                 // Ajoute l'animation de cookies qui tombent lors du clic
                 dropCookiesFromElement(clickButton, 12);
             });
